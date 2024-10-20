@@ -1,0 +1,31 @@
+server:
+  port: 8100
+spring:
+  cloud:
+    gateway:
+      routes:
+        - id: images
+          uri: http://localhost:8081
+          predicates:
+            - Path=/images/**
+          filters:
+            - PrefixPath=/api
+        - id: articles
+          uri: http://localhost:8080
+          predicates:
+            - Path=/articles/**
+          filters:
+            - StripPrefix=1
+            - CheckToken=X-I-AM
+  main:
+    web-application-type: reactive
+
+
+
+logging:
+  level:
+    org.springframework.web: DEBUG
+    org.springframework.http: DEBUG
+    org.springframework.cloud.gateway: DEBUG
+
+

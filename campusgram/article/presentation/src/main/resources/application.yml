@@ -1,0 +1,29 @@
+spring:
+  data:
+    mongodb:
+      uri: mongodb://seungkyu:1204@localhost:27017/seungkyu?authSource=admin
+
+  kafka:
+    bootstrap-servers: localhost:9092, localhost:9093, localhost:9094
+    producer:
+      value-serializer: org.apache.kafka.common.serialization.StringSerializer
+      key-serializer: org.apache.kafka.common.serialization.StringSerializer
+  cloud:
+    stream:
+      function:
+        bindings:
+          article-out-0:
+            binder: kafka
+            destination: articles
+            content-type: text/plain
+            group: group2
+
+resilience4j:
+  circuitbreaker:
+    instances:
+      default:
+        sliding-window-size: 4
+        automatic-transition-from-open-to-half-open-enabled: true
+        permitted-number-of-calls-in-half-open-state: 4
+        wait-duration-in-open-state: 3s
+

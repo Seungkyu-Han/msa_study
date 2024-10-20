@@ -1,0 +1,33 @@
+spring:
+  kafka:
+    bootstrap-servers: localhost:9092, localhost:9093, localhost:9094
+    producer:
+      value-serializer: org.apache.kafka.common.serialization.StringSerializer
+      key-serializer: org.apache.kafka.common.serialization.StringSerializer
+
+  cloud:
+    stream:
+      function:
+        bindings:
+          followerNoti-in-0:
+            binder: kafka
+            destination: articles
+            content-type: text/plain
+            group: group2
+          followerNoti-out-0:
+            binder: kafka
+            destination: notifications
+            content-type: text/plain
+            group: group2
+      kafka:
+        bindings:
+          followerNoti-in-0:
+            consumer:
+              start-offset: latest
+
+
+    function:
+      definition: followerNoti
+
+server:
+  port: 8082

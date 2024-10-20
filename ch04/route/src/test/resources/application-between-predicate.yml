@@ -1,0 +1,22 @@
+spring:
+  cloud:
+    gateway:
+      routes:
+        - id: between-october
+          uri: http://localhost:8001
+          predicates:
+            - name: Between
+              args:
+                datetime1: 2024-10-01T00:00:00+09:00
+                datetime2: 2024-10-30T00:00:00+09:00
+          filters:
+            - AddResponseHeader=X-Test, between-october
+        - id: between-november
+          uri: http://localhost:8001
+          predicates:
+            - name: Between
+              args:
+                datetime1: 2024-11-01T00:00:00+09:00
+                datetime2: 2024-11-30T00:00:00+09:00
+          filters:
+            - AddResponseHeader=X-Test, between-november
